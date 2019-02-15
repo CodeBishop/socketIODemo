@@ -1,0 +1,23 @@
+{
+  "name": "socketIODemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "basics.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeBishop/socketIODemo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeBishop/socketIODemo/issues"
+  },
+  "homepage": "https://github.com/CodeBishop/socketIODemo#readme",
+  "dependencies": {
+    "socket.io": "2.2.0"
+  }
+}
