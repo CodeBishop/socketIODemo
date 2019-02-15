@@ -1,0 +1,16 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
+<script>
+  const socket = io('ws://localhost:9000');
+  console.log(socket)
+
+  socket.on('connect', (data) => {
+    socket.on('my custom event type for welcoming', (message) => {
+      console.log(message);
+    })
+    socket.emit('my other custom event type', {data: 'blah blah blah'})
+  })
+  
+</script>
