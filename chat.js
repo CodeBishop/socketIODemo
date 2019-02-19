@@ -1,22 +1,19 @@
 const express = require('express');
-const socketio = require('socket.io');
+const socketio = require('socket.io');  // Import socketio.Server
 
 const PORT = 9001
 
-const app = express()
+// Construct the Express server.
+const expressApplication = express()
+expressApplication.use(express.static(__dirname + '/public'))
+const expressServer = expressApplication.listen(PORT)
 
-app.use(express.static(__dirname + '/public'))
-
-const expressServer = app.listen(PORT)
-
-// Call the SocketIO server constructor to expose the server.
-const io = socketio(expressServer, {
-  path: '/socket.io',
-  serveClients: true
-})
+// Construct the SocketIO server.
+const ioServer = socketio(expressServer)
 console.log("Listening to port " + PORT)
 
-io.on('connection', (socket) => {
+// Add event handler for connection events.
+ioServer.on('connect', (socket) => {
   socket.emit('messageFromServer', {data: "Welcome to the socketio server"})
   socket.on('messageToServer', (dataFromClient) => {
     console.log(dataFromClient);
