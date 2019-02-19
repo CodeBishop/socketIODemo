@@ -9,11 +9,11 @@ expressApplication.use(express.static(__dirname + '/public'))
 const expressServer = expressApplication.listen(PORT)
 
 // Construct the SocketIO server.
-const ioServer = socketio(expressServer)
+const io = socketio(expressServer)
 console.log("Listening to port " + PORT)
 
 // Add event handler for connection events.
-ioServer.on('connect', (socket) => {
+io.on('connect', (socket) => {
   socket.emit('messageFromServer', {data: "Welcome to the socketio server"})
   socket.on('messageToServer', (dataFromClient) => {
     console.log(dataFromClient);
@@ -23,6 +23,6 @@ ioServer.on('connect', (socket) => {
   socket.on('newMessageToServer', (msg) => {
     console.log('Chat message received:\n    ' + msg.text);
     // Forward chat message to all clients.
-    ioServer.emit('messageToClients', {text: msg.text})
+    io.emit('messageToClients', {text: msg.text})
   })
 })
