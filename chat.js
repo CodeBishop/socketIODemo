@@ -18,4 +18,11 @@ ioServer.on('connect', (socket) => {
   socket.on('messageToServer', (dataFromClient) => {
     console.log(dataFromClient);
   })
+
+  // Listen for messages from clients.
+  socket.on('newMessageToServer', (msg) => {
+    console.log('Chat message received:\n    ' + msg.text);
+    // Forward chat message to all clients.
+    ioServer.emit('messageToClients', {text: msg.text})
+  })
 })

@@ -6,6 +6,17 @@
     width: 100%;
     height: 35px;
   }
+  #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  #messages li {
+    padding: 5px 10px;
+  }
+  #messages li:nth-child(odd) {
+    background: #eee
+  }
 </style>
 
 <!-- Setup Bootstrap GUI -->
@@ -35,9 +46,15 @@
 
   // Add event handler for message from server.
   socket.on('messageFromServer', (dataFromServer) => {
-    console.log('Message from server received on socket ID#' + socket.id + ': ')
+    console.log('Message from server received by socket #' + socket.id + ':')
     console.log(dataFromServer)
     socket.emit('messageToServer', {data: "Data from client"})
+  })
+
+  // Display chat messages received from server.
+  socket.on('messageToClients', (msg) => {
+    console.log('Chat message received:\n    ' + msg.text);
+    document.querySelector('#messages').innerHTML += `<li>${msg.text}</li>`
   })
 
   // Add event handlers for pinging and acking.
@@ -46,5 +63,15 @@
   })
   socket.on('pong', (latency) => {
     console.log('Received ack (pong) from server with latency of ' + latency + 'ms');
+  })
+
+  // Add event handler for the Submit button.
+  document.querySelector('#message-form').addEventListener('submit', (event) => {
+    // Disable defautl form submission handler.
+    event.preventDefault()
+    // Get the message from the text box we called "user-message".
+    const newMessage = document.querySelector('#user-message').value
+    console.log('Send chat message to server:\n    ' + newMessage)
+    socket.emit('newMessageToServer', {text: newMessage})
   })
 </script>
