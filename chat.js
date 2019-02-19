@@ -10,7 +10,10 @@ app.use(express.static(__dirname + '/public'))
 const expressServer = app.listen(PORT)
 
 // Call the SocketIO server constructor to expose the server.
-const io = socketio(expressServer)
+const io = socketio(expressServer, {
+  path: '/socket.io',
+  serveClients: true
+})
 console.log("Listening to port " + PORT)
 
 io.on('connection', (socket) => {
